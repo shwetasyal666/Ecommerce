@@ -24,6 +24,8 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   dartz: ^0.10.1
+  get_it: ^9.2.0
+  logger: ^2.6.2
  
  
 dev_dependencies:

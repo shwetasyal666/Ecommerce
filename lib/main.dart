@@ -1,37 +1,91 @@
-import 'dart:io';
-
-import 'package:ecommerce/data/models/user_model.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:ecommerce/injectioncontainer.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
+import 'firebase_options.dart';
+import 'data/models/user_model.dart';
+import 'app.dart';
 
-Future<void> main() async {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-WidgetsFlutterBinding.ensureInitialized();
+  try {
+    // Initialize Firebase
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    print('✅ Firebase initialized');
 
-  await Firebase.initializeApp();
+    // Initialize Hive
+    await Hive.initFlutter();
+    print('✅ Hive initialized');
 
+    // Register Hive Adapters
+    if (!Hive.isAdapterRegistered(0)) {
+      Hive.registerAdapter(UserModelAdapter());
+      print('✅ Hive adapters registered');
+    }
 
-  var path = Directory.current.path;
-  Hive
-  ..init(path)
-  ..registerAdapter(UserModelAdapter());
+    // Open Hive Boxes
+    // await Hive.openBox('userBox');
+    // await Hive.openBox('cartBox');
+    // await Hive.openBox('productsBox');
+    // await Hive.openBox('settingsBox');
+    // print('✅ Hive boxes opened');
 
-  Hive.openBox('userbox');
+    // Setup Dependency Injection
+    await initDependencies();
+    print('✅ Dependencies initialized');
 
-  runApp(const MainApp());
+    runApp(const MyApp());
+  } catch (e, stackTrace) {
+    print('❌ Initialization error: $e');
+    print('Stack trace: $stackTrace');
+    runApp(ErrorApp(error: e.toString()));
+  }
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return const App();
+  }
+}
+
+// Error fallback app
+class ErrorApp extends StatelessWidget {
+  final String error;
+
+  const ErrorApp({Key? key, required this.error}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Text('Hello World!'),
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.error, size: 64, color: Colors.red),
+                const SizedBox(height: 16),
+                const Text(
+                  'Initialization Error',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  error,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
