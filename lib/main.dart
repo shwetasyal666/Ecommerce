@@ -1,3 +1,5 @@
+import 'package:ecommerce/data/models/category_model.dart';
+import 'package:ecommerce/data/models/product_model.dart';
 import 'package:ecommerce/injectioncontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,15 +26,22 @@ void main() async {
     // Register Hive Adapters
     if (!Hive.isAdapterRegistered(0)) {
       Hive.registerAdapter(UserModelAdapter());
-      print('✅ Hive adapters registered');
     }
+    if (!Hive.isAdapterRegistered(1)) {
+      Hive.registerAdapter(ProductModelAdapter());
+    }
+    if (!Hive.isAdapterRegistered(6)) {
+      Hive.registerAdapter(CategoryModelAdapter());
+    }
+    print('✅ Hive adapters registered');
 
     // Open Hive Boxes
-    // await Hive.openBox('userBox');
-    // await Hive.openBox('cartBox');
-    // await Hive.openBox('productsBox');
-    // await Hive.openBox('settingsBox');
-    // print('✅ Hive boxes opened');
+    await Hive.openBox('userBox');
+    await Hive.openBox('cartBox');
+    await Hive.openBox('productsBox');
+    await Hive.openBox('settingsBox');
+    print('✅ Hive boxes opened');
+
 
     // Setup Dependency Injection
     await initDependencies();

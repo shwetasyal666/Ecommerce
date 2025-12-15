@@ -12,6 +12,7 @@ class HiveConstants {
   static const String themeKey = 'theme_mode';
   static const String languageKey = 'language';
   static const String cachedProductsKey = 'cached_products';
+  static const String cachedCategoriesKey = 'cached_categories';
   static const String authTokenKey = 'auth_token';
   
   // Type IDs (must be unique)
