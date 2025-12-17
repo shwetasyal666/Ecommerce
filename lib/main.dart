@@ -1,12 +1,12 @@
-import 'package:ecommerce/data/models/category_model.dart';
-import 'package:ecommerce/data/models/product_model.dart';
+import 'package:ecommerce/features/product/data/models/category_model.dart';
+import 'package:ecommerce/features/product/data/models/product_model.dart';
 import 'package:ecommerce/injectioncontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'firebase_options.dart';
-import 'data/models/user_model.dart';
+import 'features/authentication/data/models/user_model.dart';
 import 'app.dart';
 
 void main() async {

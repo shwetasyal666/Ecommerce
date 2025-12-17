@@ -1,12 +1,12 @@
+import 'package:ecommerce/features/product/presentation/screens/home_screen.dart';
 import 'package:ecommerce/injectioncontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'presentation/bloc/auth/auth_bloc.dart';
-import 'presentation/bloc/auth/auth_event.dart';
-import 'presentation/bloc/auth/auth_state.dart';
-import 'presentation/screens/splash/splash_screen.dart';
-import 'presentation/screens/auth/login_screen.dart';
-import 'presentation/screens/home/home_screen.dart';
+import 'features/authentication/presentation/bloc/auth_bloc.dart';
+import 'features/authentication/presentation/bloc/auth_event.dart';
+import 'features/authentication/presentation/bloc/auth_state.dart';
+import 'features/splash/splash_screen.dart';
+import 'features/authentication/presentation/screens/login_screen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
